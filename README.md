@@ -21,6 +21,7 @@ This is a Node.js API that aggregates and ranks search results from YouTube, art
    PORT=5000
    YOUTUBE_API_KEY=your_youtube_api_key
    GOOGLE_API_KEY=your_google_api_key
+   GOOGLE_CSE_ID=your_google_cse_key
 ```
 
 **For Nodemon**
