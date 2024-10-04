@@ -12,8 +12,11 @@ This is a Node.js API that aggregates and ranks search results from YouTube, art
    git clone https://github.com/Shulinagarwal/backend.git
    cd backend
 
+   
    npm install
+   npm install express axios dotenv cors
    npm install --save-dev nodemon
+
 
 **Create a .env file**
 
