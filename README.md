@@ -14,16 +14,25 @@ This is a Node.js API that aggregates and ranks search results from YouTube, art
 
    npm install
    npm install --save-dev nodemon
+
 **Create a .env file**
-PORT=5000
-YOUTUBE_API_KEY=your_youtube_api_key
-GOOGLE_API_KEY=your_google_api_key
+
+```
+   PORT=5000
+   YOUTUBE_API_KEY=your_youtube_api_key
+   GOOGLE_API_KEY=your_google_api_key
+```
 
 **For Nodemon**
+```
 npm run dev
+```
+
 
 **Directly**
+```
 node app.js
+```
 
 
 ### Notes:
