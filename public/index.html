@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Source Search</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header>
+        <h1>Multi-Source Search</h1>
+    </header>
+    <main>
+        <form id="searchForm">
+            <input type="text" id="query" placeholder="Enter search term" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="results">
+            <section id="youtubeResults">
+                <h2>YouTube Results</h2>
+                <div class="results-container"></div>
+            </section>
+
+            <section id="articleResults">
+                <h2>Article Results</h2>
+                <div class="results-container"></div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const resultsDiv = document.getElementById('results');
+
+        const youtubeSection = document.getElementById('youtubeResults').querySelector('.results-container');
+        const articleSection = document.getElementById('articleResults').querySelector('.results-container');
+
+        searchForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const query = document.getElementById('query').value.trim();
+            if (!query) {
+                alert('Please enter a search term.');
+                return;
+            }
+
+            // Clear previous results
+            youtubeSection.innerHTML = '';
+            articleSection.innerHTML = '';
+        
+            // Show searching message in each section
+            youtubeSection.innerHTML = '<p>Searching YouTube...</p>';
+            articleSection.innerHTML = '<p>Searching Articles...</p>';
+           
+
+            try {
+                const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+
+                if (!data.results || data.results.length === 0) {
+                    youtubeSection.innerHTML = '<p>No YouTube results found.</p>';
+                    articleSection.innerHTML = '<p>No Article results found.</p>';
+                    return;
+                }
+
+                // Filter results by type
+                const youtubeResults = data.results.filter(result => result.type === 'YouTube');
+                const articleResults = data.results.filter(result => result.type === 'Article');
+               
+
+                // Function to generate HTML for each result
+                const generateResultHTML = (result) => {
+                    let additionalInfo = '';
+                    if (result.type === 'Article' && result.snippet) {
+                        additionalInfo = `<p class="result-snippet">${result.snippet}</p>`;
+                    } 
+                    return `
+                        <div class="result-item">
+                            <a href="${result.url}" target="_blank" class="result-title">${result.title}</a>
+                            <div class="result-score">Score: ${result.score}</div>
+                            ${additionalInfo}
+                        </div>
+                    `;
+                };
+
+                // Populate YouTube Results
+                if (youtubeResults.length > 0) {
+                    youtubeSection.innerHTML = youtubeResults.map(generateResultHTML).join('');
+                } else {
+                    youtubeSection.innerHTML = '<p>No YouTube results found.</p>';
+                }
+
+                // Populate Article Results
+                if (articleResults.length > 0) {
+                    articleSection.innerHTML = articleResults.map(generateResultHTML).join('');
+                } else {
+                    articleSection.innerHTML = '<p>No Article results found.</p>';
+                }
+
+               
+
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+                youtubeSection.innerHTML = '<p>An error occurred while searching YouTube. Please try again later.</p>';
+                articleSection.innerHTML = '<p>An error occurred while searching Articles. Please try again later.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
