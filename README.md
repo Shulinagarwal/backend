@@ -38,6 +38,13 @@ npm run dev
 node app.js
 ```
 
+**After the server is Running**
+you have to run on the browser
+```
+http://localhost:5000/
+```
+** you will see the page and you have to enter your query there and you will get the result**
+
 
 ### Notes:
 This README provides a clear guide for users to install and run your project, helping them get started quickly!
