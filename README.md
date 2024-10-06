@@ -43,7 +43,7 @@ you have to run on the browser
 ```
 http://localhost:5000/
 ```
-** you will see the page and you have to enter your query there and you will get the result**
+**You will see the page and you have to enter your query there and you will get the result**
 
 
 ### Notes:
